@@ -156,16 +156,32 @@ let level2 = totalCount>0? window.counts.detective/totalCount : window.counts.de
 let level3 = totalCount>0? window.counts.slowDetective/totalCount : window.counts.slowDetective;
 let level4 = totalCount>0? window.counts.failed/totalCount : window.counts.failed;
 
-level1 = (level1*100).toFixed(1);
-level2 = (level2*100).toFixed(1);
-level3 = (level3*100).toFixed(1);
-level4 = (level4*100).toFixed(1);
+level1f = (level1*100).toFixed(1);
+level2f = (level2*100).toFixed(1);
+level3f = (level3*100).toFixed(1);
+level4f = (level4*100).toFixed(1);
 
 
-$(".level1").text(level1);
-$(".level2").text(level2);
-$(".level3").text(level3);
-$(".level4").text(level4);
+$(".level1").text(level1f);
+$(".level2").text(level2f);
+$(".level3").text(level3f);
+$(".level4").text(level4f);
+
+
+$(".level1-row, .level2-row, .level3-row, .level4-row").removeClass("bold");
+var arrLevels = [level1, level2, level3, level4];
+var maxLevel = Math.max(...arrLevels);
+var fIndex = arrLevels.indexOf(maxLevel)
+var lIndex = arrLevels.lastIndexOf(maxLevel)
+if(fIndex!==-1) {
+    $(`.level${fIndex+1}-row`).addClass("bold");
+}
+if(lIndex!==-1) {
+    $(`.level${lIndex+1}-row`).addClass("bold");
+
+}
+
+
 
 
 // Mental work rate:
@@ -239,7 +255,7 @@ if(window.needToUpdateChart)
 //$("#mentalWorkRate").text(avg);
 //asdf
 
-}, 1000); // changed to 1 second to remain real time with the mins of the chart. 
+}, 500); // changed to 1 second to remain real time with the mins of the chart. 
 // Why: 100ms was causing tooltip to stuck once hovered
 
 $(()=>{

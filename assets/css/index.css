@@ -75,3 +75,8 @@ textarea {
 .level::after {
   content: "%";
 }
+
+/* line 69, scss/index.scss */
+.bold {
+  font-weight: 800;
+}

@@ -191,23 +191,23 @@ Alternate point scheme:
             <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
 
                 <div class="box-part switch switch1" style="text-align:left; background-color:white; display:inline-block;" onclick="$(`.switch`).addClass(`hide`); $(`.switch2`).removeClass(`hide`);">
-                    <div>
-                        <span class="fs-100">Textbook vs memorizing facts</span><br/>
+                    <span class="fs-100">Textbook vs memorizing facts</span><br/>
+                    <div class="level1-row fs-100">
                         <span class="fa fa-keyboard"></span> 1</th>
                         <span>Fluid / Familiar</span>
                         <span class='level level1'>0.0</span>
                     </div>
-                    <div class="detective fs-100">
+                    <div class="level2-row fs-100">
                         <span class="fa fa-keyboard"></span> 2</th>
                         <span>Analyze / Elaborate</span>
                         <span class='level level2'>0.0</span>
                     </div>
-                    <div class="slowDetective fs-100">
+                    <div class="level3-row fs-100">
                         <span class="fa fa-keyboard"></span> 3</th>
                         <span>Exposure</span>
                         <span class='level level3'>0.0</span>
                     </div>
-                    <div class="failed fs-100">
+                    <div class="level4-row fs-100">
                         <span class="fa fa-keyboard"></span> 4</th>
                         <span>Research / Trust it</span>
                         <span class='level level4'>0.0</span>
@@ -215,23 +215,23 @@ Alternate point scheme:
                 </div> <!-- End a switch -->
                 
                 <div class="box-part switch switch2 hide" style="text-align:left; background-color:white; display:inline-block;" onclick="$(`.switch`).addClass(`hide`); $(`.switch3`).removeClass(`hide`);">
-                    <div>
-                        <span class="fs-100">Textbook vs memorizing facts</span><br/>
+                    <span class="fs-100">Textbook vs memorizing facts</span><br/>
+                    <div class="level1-row fs-100">
                         <span class="fa fa-keyboard"></span> 1</th>
                         <span>Intuitive/fast</span>
                         <span class='level level1'>0.0</span>
                     </div>
-                    <div class="detective fs-100">
+                    <div class="level2-row fs-100">
                         <span class="fa fa-keyboard"></span> 2</th>
                         <span>Analysis OR Incorporate outside info</span>
                         <span class='level level2'>0.0</span>
                     </div>
-                    <div class="slowDetective fs-100">
+                    <div class="level3-row fs-100">
                         <span class="fa fa-keyboard"></span> 3</th>
                         <span>Both analysis and incorporate</span>
                         <span class='level level3'>0.0</span>
                     </div>
-                    <div class="failed fs-100">
+                    <div class="level4-row fs-100">
                         <span class="fa fa-keyboard"></span> 4</th>
                         <span>Have to research and find unknowns</span>
                         <span class='level level4'>0.0</span>
@@ -239,23 +239,23 @@ Alternate point scheme:
                 </div> <!-- End a switch -->
 
                 <div class="box-part switch switch3 hide" style="text-align:left; background-color:white; display:inline-block;" onclick="$(`.switch`).addClass(`hide`); $(`.switch1`).removeClass(`hide`);">
-                    <div>
-                        <span class="fs-100">Textbook vs memorizing facts</span><br/>
+                    <span class="fs-100">Textbook vs memorizing facts</span><br/>
+                    <div class="level1-row fs-100">
                         <span class="fa fa-keyboard"></span> 1</th>
                         <span>Easy and intuitive</span>
                         <span class='level level1'>0.0</span>
                     </div>
-                    <div class="detective fs-100">
+                    <div class="level2-row fs-100">
                         <span class="fa fa-keyboard"></span> 2</th>
                         <span>Can follow thru internally.</span>
                         <span class='level level2'>0.0</span>
                     </div>
-                    <div class="slowDetective fs-100">
+                    <div class="level3-row fs-100">
                         <span class="fa fa-keyboard"></span> 3</th>
                         <span>Need visual cues to follow thru.</span>
                         <span class='level level3'>0.0</span>
                     </div>
-                    <div class="failed fs-100">
+                    <div class="level4-row fs-100">
                         <span class="fa fa-keyboard"></span> 4</th>
                         <span>Even visual cues take much sorting/categorizing/prioritizing. Some visual cues may be missed.</span>
                         <span class='level level4'>0.0</span>
