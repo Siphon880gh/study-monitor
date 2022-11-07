@@ -173,6 +173,7 @@ Alternate point scheme:
                             } // else
                             updateUserFreq();
                             updateAverage();
+                            // window.chart.update();
                         }
                     });
             })
@@ -520,8 +521,9 @@ Alternate point scheme:
                      </div>
                      
                      <div class="text">
-                         <label for="review-time">Every Minutes</label>
-                         <input id="review-time" type="number" min="0" style="width:100%; font-size: 2vw" />
+                         <label for="review-time">Every</label>
+                         <input id="review-time" type="number" min="0" style="width: 4.5ch; height: 2rem;" />
+                         <label for="review-time">minutes</label>
                      </div>
                      
                   </div>

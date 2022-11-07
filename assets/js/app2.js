@@ -141,7 +141,7 @@ return cumTickedXMins;
 }
 
 setInterval(function() {
-var needToUpdateChart = false;
+window.needToUpdateChart = false;
 
 var totalCount = window.counts.adept + window.counts.detective + window.counts.slowDetective + window.counts.failed;
 
@@ -233,13 +233,14 @@ if(haveToUpdateHighestLoggedLine) {
     needToUpdateChart = true;
 }
 
-if(needToUpdateChart)
+if(window.needToUpdateChart)
     window.chart.update();
 // Updating mental work rate near chart:
 //$("#mentalWorkRate").text(avg);
 //asdf
 
-}, 100);
+}, 1000); // changed to 1 second to remain real time with the mins of the chart. 
+// Why: 100ms was causing tooltip to stuck once hovered
 
 $(()=>{
     $("body").on("keyup", function(event) {
