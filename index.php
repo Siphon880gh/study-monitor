@@ -160,8 +160,6 @@ Alternate point scheme:
             window.firstEverSuccessfulEntry = false;
             $(function() {
                 $("html")
-                    .on("input", updateUserFreq)
-                    .on("input", updateAverage)
                     .on("keydown", (event) => {
                         if( ! event.key.toString().match(/[1-4]/)) {
                             event.preventDefault();
@@ -173,6 +171,8 @@ Alternate point scheme:
                             } else {
                                 $("#credit").val(event.key+","+$("#credit").val());
                             } // else
+                            updateUserFreq();
+                            updateAverage();
                         }
                     });
             })
@@ -278,86 +278,8 @@ Alternate point scheme:
                 <canvas id="myChart"></canvas>
                 <div id="studyStateRecommendation" style="position: absolute; right: 5px; bottom: 5px;"></div>
              </div> <!-- Line Chart -->
-             
-              <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
-            
-                 <div class="box-part text-center">
-                     
-                    <div class="handle"></div>
-                     <div class="title">
-                         <span>User Frequency</span>
-                     </div>
-                     
-                     <div class="text">
-                         <span id="use-freq"></span>
-                     </div>
-                     
-                     
-                     
-                  </div>
-             </div>	  <!-- Ends Card User Frequency -->
 
-             <script>
-             function updateUserFreq() {
-                var freqs = $("#use-freq").text().split(","), // as array
-                            currentTimemark = $("#countup").text(); // as string
-                        var matched = freqs.find(function(foundTimemark) { // as boolean
-                            return currentTimemark==foundTimemark; 
-                        });
-
-                        if(!matched)
-                            $("#use-freq").append($("#countup").text() + ", ");
-             }
-             </script>
-             
              <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
-            
-                 <div class="box-part text-center">
-                     
-                    <div class="handle"></div>
-                     <div class="title">
-                         <span>Average</span><br/>
-                         <span>Try to maintain or beat your usual average points/min.</span>
-                     </div>
-                     
-                     <div class="text">
-                         <span id="avg"></span>
-                     </div>
-                  </div>
-
-                    <script>
-                    function updateAverage() {
-                        var mins = Math.floor($("#countup").data("seconds")/60);
-                        if(mins===0)
-                            mins=1;
-                        var points = 0;
-
-                        var total = $("#credit").val().split(" ").filter(el=>typeof parseInt(el)==="number" && el.length>0).map(el=>parseInt(el)).reduce( (total, part)=>total+=part );
-                        var avg = (total/mins).toFixed(2);
-
-                        var prev=0, arr = $("#avg").text().split(" ").filter(el=>typeof parseFloat(el)==="number" && el.length>0).map(el=>parseFloat(el));
-                        if(arr.length>0)
-                            prev=arr[arr.length-1];
-                        
-                        if(avg<prev) {
-                            $("#avg .text-red, #avg .text-lightred").removeClass("text-red").removeClass("text-lightred").addClass("text-purple");
-                            $("#avg").append(`<span class="text-red">${avg}</span> `);
-                        } else {
-                            $("#avg .text-red, #avg .text-purple").removeClass("text-red").removeClass("text-purple").addClass("text-lightred");
-                            $("#avg").append(`<span>${avg}</span> `);
-                        }
-                    }
-                    </script>
-
-                    <style>
-                    .text-red { color:red; }
-                    .text-lightred { color:red; opacity:0.3; }
-                    .text-purple { color:purple; }
-                    </style>
-             </div>
-             
-
-            <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 
                 <div class="box-part text-center">
                     
@@ -507,7 +429,85 @@ Alternate point scheme:
                     padding: 5px;
                 }
                 </style>
-            </div>	 
+            </div>	 <!-- End would average -->
+             
+              <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            
+                 <div class="box-part text-center">
+                     
+                    <div class="handle"></div>
+                     <div class="title">
+                         <span>User Frequency</span>
+                     </div>
+                     
+                     <div class="text">
+                         <span id="use-freq"></span>
+                     </div>
+                     
+                     
+                     
+                  </div>
+             </div>	  <!-- Ends Card User Frequency -->
+
+             <script>
+             function updateUserFreq() {
+                var freqs = $("#use-freq").text().split(","), // as array
+                            currentTimemark = $("#countup").text(); // as string
+                        var matched = freqs.find(function(foundTimemark) { // as boolean
+                            return currentTimemark==foundTimemark; 
+                        });
+
+                        if(!matched)
+                            $("#use-freq").append($("#countup").text() + ", ");
+             }
+             </script>
+             
+             <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            
+                 <div class="box-part text-center">
+                     
+                    <div class="handle"></div>
+                     <div class="title">
+                         <span>Average</span><br/>
+                         <span>Try to maintain or beat your usual average points/min.</span>
+                     </div>
+                     
+                     <div class="text">
+                         <span id="avg"></span>
+                     </div>
+                  </div>
+
+                    <script>
+                    function updateAverage() {
+                        var mins = Math.floor($("#countup").data("seconds")/60);
+                        if(mins===0)
+                            mins=1;
+                        var points = 0;
+
+                        var total = $("#credit").val().split(" ").filter(el=>typeof parseInt(el)==="number" && el.length>0).map(el=>parseInt(el)).reduce( (total, part)=>total+=part );
+                        var avg = (total/mins).toFixed(2);
+
+                        var prev=0, arr = $("#avg").text().split(" ").filter(el=>typeof parseFloat(el)==="number" && el.length>0).map(el=>parseFloat(el));
+                        if(arr.length>0)
+                            prev=arr[arr.length-1];
+                        
+                        if(avg<prev) {
+                            $("#avg .text-red, #avg .text-lightred").removeClass("text-red").removeClass("text-lightred").addClass("text-purple");
+                            $("#avg").append(`<span class="text-red">${avg}</span> `);
+                        } else {
+                            $("#avg .text-red, #avg .text-purple").removeClass("text-red").removeClass("text-purple").addClass("text-lightred");
+                            $("#avg").append(`<span>${avg}</span> `);
+                        }
+                    }
+                    </script>
+
+                    <style>
+                    .text-red { color:red; }
+                    .text-lightred { color:red; opacity:0.3; }
+                    .text-purple { color:purple; }
+                    </style>
+             </div>
+             
              
               <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
             
