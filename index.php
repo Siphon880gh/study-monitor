@@ -512,7 +512,7 @@ Alternate point scheme:
              
               <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
             
-                 <div class="box-part text-center">
+                 <div class="box-part box-part-review-time text-center">
                      
                     <div class="handle"></div>
                      <div class="title">
@@ -530,9 +530,9 @@ Alternate point scheme:
 
                   <script>
                     $(function() {
-                        $("#review-time").closest(".box-part").on("click", () => {
-                            if($(event.target).hasClass("need-review"))
-                                $(event.target).removeClass("need-review");
+                        $(".box-part-review-time ").on("click", (event) => {
+                            // if($(event.target).hasClass("need-review"))
+                                $(".box-part-review-time").removeClass("need-review");
                         });
                         setInterval(()=> {
                             var mins = Math.abs($("#review-time").val());
