@@ -1,0 +1,77 @@
+/* line 1, scss/index.scss */
+body {
+  background: #eee;
+}
+
+/* line 9, scss/index.scss */
+a {
+  text-decoration: none;
+  color: #0062cc;
+  border-bottom: 2px solid #0062cc;
+}
+
+/* line 15, scss/index.scss */
+.box {
+  padding: 60px 0px;
+}
+
+/* line 19, scss/index.scss */
+.box-part {
+  background: #FFF;
+  border-radius: 0;
+  padding: 10px 10px;
+  margin: 30px 0px;
+}
+
+/* line 26, scss/index.scss */
+.text {
+  margin: 20px 0px;
+}
+
+/* line 30, scss/index.scss */
+.fa {
+  color: #4183D7;
+}
+
+/* line 34, scss/index.scss */
+.title {
+  text-align: left;
+}
+/* line 36, scss/index.scss */
+.title h4 {
+  font-size: 12px;
+}
+/* line 39, scss/index.scss */
+.title h6 {
+  margin-top: -6px;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+/* line 46, scss/index.scss */
+#countup {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+/* line 50, scss/index.scss */
+#countup:not(.active) {
+  color: lightgray;
+  font-weight: 100;
+}
+
+/* line 56, scss/index.scss */
+textarea {
+  resize: none;
+}
+
+/* line 60, scss/index.scss */
+.box-part.need-review {
+  background-color: tomato;
+  cursor: pointer;
+}
+
+/* line 65, scss/index.scss */
+.level::after {
+  content: "%";
+}
