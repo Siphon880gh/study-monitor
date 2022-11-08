@@ -56,8 +56,8 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-12" style="margin-left:15px;">
-                <span onclick="window.location.href=window.location.href;" style="cursor:pointer; font-weight:bold; font-size:150%;">Study Monitor</span>
+            <div class="col-xs-12" style="margin-left:15px;" onclick="$(this).html(''); $(this).css('height', '5px');">
+                <span onclick-off="window.location.href=window.location.href;" style="cursor:pointer; font-weight:bold; font-size:150%;">Study Monitor</span>
                 <span>By Weng Fei Fung. Beat procrastination while studying. To encourage breaks, limit this to 1 hour use.</span>
             </div>
         </div>
