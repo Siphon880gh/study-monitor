@@ -56,9 +56,13 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-12" style="margin-left:15px;" onclick="$(this).html(''); $(this).css('height', '5px');">
+            <div class="col-12 col-sm-12" onclick="$(this).html(''); $(this).css('height', '5px');">
                 <span onclick-off="window.location.href=window.location.href;" style="cursor:pointer; font-weight:bold; font-size:150%;">Study Monitor</span>
                 <span>By Weng Fei Fung. Beat procrastination while studying. To encourage breaks, limit this to 1 hour use.</span>
+            </div>
+            <div class="col-12 col-sm-12" style="opacity:.8; padding-top:10px; padding-bottom:10px;">
+                <input type="checkbox" id="cooldown-10"><label for="cooldown-10">&nbsp;Cool down 10 seconds each time studied</label>
+                    <i class="fa fa-info" onclick='window.open("//hubermanlab.com/teach-and-learn-better-with-a-neuroplasticity-super-protocol/");' style="vertical-align:super; font-size:8pt; text-decoration:none; cursor:pointer;"></i>
             </div>
         </div>
 
@@ -73,6 +77,7 @@
                      <div class="text">
                          <span id="countup" class="active" data-seconds=0>00:00</span>
                      </div>
+                     <div id="resting-10" style="font-size:20px; color:aquamarine;"></div>
                   </div>
              </div>	 
 
@@ -162,9 +167,10 @@ Alternate point scheme:
                 $("html")
                     .on("keydown", (event) => {
                         if( ! event.key.toString().match(/[1-4]/)) {
+                            // Allow default behavior so can Inspect shortcut keys etc
+                        } else {
                             event.preventDefault();
                             event.stopPropagation();
-                        } else {
                             if(!window.firstEverSuccessfulEntry) {
                                 window.firstEverSuccessfulEntry = true;
                                 $("#credit").val(event.key);
@@ -173,6 +179,26 @@ Alternate point scheme:
                             } // else
                             updateUserFreq();
                             updateAverage();
+
+                            var wantCooldown = $("#cooldown-10").is(":checked");
+                            if(wantCooldown) {
+                                $("#resting-10").css("display","block");
+                                $("#countup").css("display","none");
+                                window.cooldownCounter = 0;
+                                $("#resting-10").text("")
+                                window.cooldownSI = setInterval(()=>{
+                                    window.cooldownCounter++;
+
+                                    if(window.cooldownCounter<11) {
+                                        $("#resting-10").text("Rest the brain for: " + window.cooldownCounter)
+                                    } else {
+                                        $("#resting-10").css("display","none");
+                                        $("#countup").css("display","block");
+                                        clearInterval(window.cooldownSI);
+                                    }
+
+                                }, 1000)
+                            }
                             // window.chart.update();
                         }
                     });
