@@ -75,7 +75,8 @@
                          <span>Click to pause/resume. Right-click/tap hold to restart.</span>
                      </div>
                      <div class="text">
-                         <span id="countup" class="active" data-seconds=0>00:00</span>
+                         <input type="text" id="countup" class="active" data-seconds="0" contenteditable="false" value="00:00" style="width:80px; height:30px; margin-right:10px;"></input>
+                         <span id="countup-toggle" class="fa fa-toggle-on" style="cursor:pointer;"></span>
                      </div>
                      <div id="resting-10" style="font-size:20px; color:aquamarine;"></div>
                   </div>
@@ -83,13 +84,21 @@
 
              <script>
              $(function() {
-                $("#countup")
+                $("#countup-toggle")
                     .on("click", () => {
-                        var $countup = $(event.target);
-                        if($countup.hasClass("active"))
+                        var $btn = $("#countup-toggle");
+                        var $countup = $("#countup");
+                        if($countup.hasClass("active")) {
+                            $btn.removeClass("fa-toggle-on");
+                            $btn.addClass("fa-toggle-off");
                             $countup.removeClass("active");
-                        else
+                            $countup.attr("contenteditable", "true");
+                        } else {
+                            $btn.removeClass("fa-toggle-off");
+                            $btn.addClass("fa-toggle-on");
                             $countup.addClass("active");
+                            $countup.attr("contenteditable", "false");
+                        }
                     })
                     .on("taphold contextmenu", () => {
                         var yes = confirm("Are you sure you want to RESTART the countup?");
@@ -105,7 +114,7 @@
                         $("#countup").data("seconds", $("#countup").data("seconds")+1);
                         var seconds = $("#countup").data("seconds");
                         
-                        $("#countup").text(secs2Timemark(seconds));
+                        $("#countup").val(secs2Timemark(seconds));
                     }
                 }, 1000);
 
@@ -168,7 +177,8 @@ Alternate point scheme:
                     .on("keydown", (event) => {
                         if( ! event.key.toString().match(/[1-4]/)) {
                             // Allow default behavior so can Inspect shortcut keys etc
-                        } else {
+                        } else if( $("#countup").hasClass("active") ) {
+                            console.log("**")
                             event.preventDefault();
                             event.stopPropagation();
                             if(!window.firstEverSuccessfulEntry) {
@@ -325,6 +335,9 @@ Alternate point scheme:
                                 <th style="border: 1px solid gray; cursor:pointer;" onclick="toggle5Mins()">5m</th>
 
                                 <script>
+                                /**
+                                 * Toggle 5 min header at Would Ave
+                                 */
                                 function toggle5Mins() {
                                     var $el = $(event.target);
                                     if($el.text()==="5mins") {

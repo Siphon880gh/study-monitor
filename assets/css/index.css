@@ -56,32 +56,31 @@ a {
 /* line 51, scss/index.scss */
 #countup {
   padding: 10px;
-  cursor: pointer;
   font-size: 20px;
 }
-/* line 55, scss/index.scss */
+/* line 54, scss/index.scss */
 #countup:not(.active) {
   color: lightgray;
   font-weight: 100;
 }
 
-/* line 61, scss/index.scss */
+/* line 60, scss/index.scss */
 textarea {
   resize: none;
 }
 
-/* line 65, scss/index.scss */
+/* line 64, scss/index.scss */
 .box-part.need-review {
   background-color: tomato;
   cursor: pointer;
 }
 
-/* line 70, scss/index.scss */
+/* line 69, scss/index.scss */
 .level::after {
   content: "%";
 }
 
-/* line 74, scss/index.scss */
+/* line 73, scss/index.scss */
 .bold {
   font-weight: 800;
 }

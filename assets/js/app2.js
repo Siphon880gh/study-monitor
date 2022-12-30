@@ -259,7 +259,28 @@ if(window.needToUpdateChart)
 // Why: 100ms was causing tooltip to stuck once hovered
 
 $(()=>{
+
+    $("#countup").on("change", function(event) {
+        if( !$("#countup").hasClass("active") ) {
+            let $countup = $("#countup");
+            let parseable = $countup.val().includes(":")?$countup.val():"";
+            if(parseable.length) {
+                // Then valid
+                let mins = parseInt(parseable.substr(0, parseable.indexOf(":")));
+                let secs = parseInt(parseable.substr(parseable.indexOf(":")+1))
+                // alert(mins)
+                // alert(secs)
+                let totalSecs = (mins * 60) + secs;
+                // alert(totalSecs)
+                $countup.data("seconds", totalSecs);
+                window.secsElapsed = totalSecs;
+            }
+        }
+    });
+
     $("body").on("keyup", function(event) {
+        
+    if( $("#countup").hasClass("active") ) {
         switch(event.key) {
             case "1":
                 if(!window.started) { $("#start-timer").click(); }
@@ -289,6 +310,7 @@ $(()=>{
                 $("#recent-failed").addClass("bold");
                 reinitializePieChart();
                 break;
-        }
-    });
-});
+        } // switch
+    } // if
+    }); // body on keyup
+}); // document ready
