@@ -497,8 +497,10 @@ Alternate point scheme:
                             return currentTimemark==foundTimemark; 
                         });
 
-                        if(!matched)
-                            $("#use-freq").append($("#countup").text() + ", ");
+                        if(!matched) {
+                            $("#use-freq").append($("#countup").val() + ", ");
+                            $("#use-freq").data("last-secs", getTotalSecs($("#countup").val()));
+                        }
              }
              </script>
              
@@ -566,20 +568,73 @@ Alternate point scheme:
                      </div>
                      
                   </div>
+                  </div>
+            
+                  <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                  <div class="box-part box-part-tolerate-time text-center">
+                     
+                     <div class="handle"></div>
+                      <div class="title">
+                          <span>Tolerate Time</span><br/>
+                          <span>Give me an ugly alert box if I don't log work.</span>
+                      </div>
+                      
+                      <div class="text">
+                          <label for="tolerate-time">Idled for</label>
+                          <input id="tolerate-time" type="number" min="0" value="15" style="width: 4.5ch; height: 2rem;" />
+                          <label for="tolerate-time">minutes</label>
+                      </div>
+                      
+                   </div>
 
                   <script>
+                    function getTotalSecs(timemark) {
+                        let parseable = timemark.includes(":")?timemark:"";
+                        if(parseable.length) {
+                            let mins = parseInt(parseable.substr(0, parseable.indexOf(":")));
+                            let secs = parseInt(parseable.substr(parseable.indexOf(":")+1))
+                            if(isNaN(mins) || isNaN(secs))
+                                return false;
+
+                            let totalSecs = (mins * 60) + secs;
+                            return totalSecs;
+                        } else {
+                            return false
+                        }
+                    } // getTotalSecs
+
                     $(function() {
                         $(".box-part-review-time ").on("click", (event) => {
                             // if($(event.target).hasClass("need-review"))
                                 $(".box-part-review-time").removeClass("need-review");
                         });
                         setInterval(()=> {
+                            // Need review?
+                            if(!$("#countup").hasClass("active"))
+                                return;
+
+                            // Flash red for user to review
                             var mins = Math.abs($("#review-time").val());
                             // Is it time yet? The first time
                             if($("#countup").data('seconds')<mins*60)
                                 return;
                             if($("#countup").data('seconds')%(mins*60)==0)
                                 $("#review-time").closest(".box-part").addClass("need-review");
+
+
+                            // Alert for late
+                            let lastLoggedSecs = $("#use-freq").data("last-secs");
+                            lastLoggedSecs = parseInt(lastLoggedSecs);
+
+
+                            let elapsedSecs = $("#countup").data("seconds");
+                            elapsedSecs = parseInt(elapsedSecs);
+
+                            // console.log({lastLoggedSecs, elapsedSecs});
+                            if(!isNaN(parseInt($("#tolerate-time").val())) && (lastLoggedSecs + (parseInt($("#tolerate-time").val())*60) === elapsedSecs)) {
+                                alert(`Idled minutes: ${$("#tolerate-time").val()}\n\nGet back to it!`)
+                            }
+
                         }, 1000);
 
                         $(function() {

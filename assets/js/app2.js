@@ -70,7 +70,7 @@ function allowOnly1234(event) {
 // }, 100);
 // });
 
-window.secsElapsed = 1;
+window.secsElapsed = 1; // that's total elapsed seconds, which only snapshots when you hit a valid key, then is used to render graph and charts
 window.counts = {
 adept: 0,
 detective: 0,
@@ -100,23 +100,6 @@ window.idealMentalWorkPerXMins__Numerator = 3;
 window.idealMentalWorkPerXMins__Den = 5;
 window.thresholdWarning_RateLessThanPerc = 3/4;
 window.thresholdDanger_RateLessThanPerc = 1/2;
-
-function startTimer() {
-if(!window.timerOn) {
-
-    window.timerInst = setInterval(function() { 
-        const formatted = moment.utc(window.secsElapsed*1000).format('HH:mm:ss');
-        $(".dom-elapsed-time").text(formatted);
-        window.secsElapsed++;
-    }, 1000);
-    window.timerOn = true;
-    $("#start-timer").addClass("btn-default").removeClass("btn-primary");
-} else {
-    clearInterval(window.timerInst);
-    window.timerOn = false;
-    $("#start-timer").removeClass("btn-default").addClass("btn-primary");
-}
-} // startTimer
 
 function calcIDEALTickedAvg(factor) {
 
@@ -309,6 +292,7 @@ $(()=>{
                 let totalSecs = (mins * 60) + secs;
                 // alert(totalSecs)
                 $countup.data("seconds", totalSecs);
+                // console.log(totalSecs)
                 window.secsElapsed = totalSecs;
             }
         }
