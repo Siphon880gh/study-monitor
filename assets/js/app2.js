@@ -8,6 +8,7 @@ window.maxCountsToDisplayOnGraph = 7;
 var blue = "rgba(0,100,255, .75)",
     green = "rgba(0,155,50, .5)",
     red = "rgba(175,0,0, .25)";
+    orange = "rgba(255, 154, 41, 0.6)";
 
 function mayNeedToStudyMore() {
 // window.chart.chart.data.datasets[1].borderColor = "orange";
@@ -117,18 +118,26 @@ if(!window.timerOn) {
 }
 } // startTimer
 
-function calcIDEALTickedAvg() {
-//return window.idealMentalWorkPerXMins__Numerator / window.idealMentalWorkPerXMins__Den;
+function calcIDEALTickedAvg(factor) {
 
-var mins = window.secsElapsed/60;
-var wholeCumTickedMins = Math.floor(mins / window.idealMentalWorkPerXMins__Den) + window.idealMentalWorkPerXMins__Den;
-var remainerCumTickedMins = mins%window.idealMentalWorkPerXMins__Den; // in case expanding math in the future
-var cumTickedXMins = wholeCumTickedMins;
+    // Algorithm 1
+    // return window.idealMentalWorkPerXMins__Numerator / window.idealMentalWorkPerXMins__Den;
 
-var numerator = window.idealMentalWorkPerXMins__Numerator * (wholeCumTickedMins/window.idealMentalWorkPerXMins__Den);
+    // Algorithm 2:
+    // var mins = window.secsElapsed/60;
+    // var wholeCumTickedMins = Math.floor(mins / window.idealMentalWorkPerXMins__Den) + window.idealMentalWorkPerXMins__Den;
+    // var remainerCumTickedMins = mins%window.idealMentalWorkPerXMins__Den; // in case expanding math in the future
+    // var cumTickedXMins = wholeCumTickedMins;
 
-return numerator/cumTickedXMins;
+    // var numerator = window.idealMentalWorkPerXMins__Numerator * (wholeCumTickedMins/window.idealMentalWorkPerXMins__Den);
 
+    // return numerator/cumTickedXMins;
+
+    // Agorithm 3:
+    var totalCount = window.counts.adept + window.counts.detective + window.counts.slowDetective + window.counts.failed;
+    var lastCumulative = Number.parseFloat( totalCount/calcTickedAvg() ).toPrecision(2);
+
+    return parseFloat(window.chart.chart.data.datasets[0].data [ window.chart.chart.data.datasets[0].data.length - 1 ]) * factor
 }
 
 function calcTickedAvg() {
@@ -190,18 +199,46 @@ if(lIndex!==-1) {
 //             avg = Number.parseFloat( totalCount/minElapsed ).toPrecision(2);
 const avg = Number.parseFloat( totalCount/calcTickedAvg() ).toPrecision(2);
 
-// Setting ideal to graph:
-if(avg!==window.lastAvg) {
+// Setting 50% benchmark to graph:
+// if(avg!==window.lastAvg) {
+if(true) {
     
     // Plugin Constraint: Other lines must have the same number of data points to span the graph
     var arrIdeal = [],
-    idealTickedAvg = calcIDEALTickedAvg();
+    idealTickedAvg = parseFloat(calcIDEALTickedAvg(0.5).toPrecision(2))
 
     arrIdeal.push( idealTickedAvg ); // position 0
 
     window.chart.chart.data.datasets[0].data.forEach(function() { arrIdeal.push( idealTickedAvg ); });
 
     window.chart.chart.data.datasets[2].data = arrIdeal;
+
+    // If cumulative is less than ideal
+    if(totalCount/calcTickedAvg() < totalCount/calcTickedAvg() * window.thresholdWarning_RateLessThanPerc ) {
+        mayNeedToStudyMore();
+    } else if(totalCount/calcTickedAvg() < totalCount/calcTickedAvg() * window.thresholdDanger_RateLessThanPerc ) {
+        needToStudyMore();
+    } else {
+        canStudyCurrentRate();
+    }
+
+    // console.log("a");
+    needToUpdateChart = true;
+}
+
+// Setting 75% benchmark to graph:
+// if(avg!==window.lastAvg) {
+if(true) {
+    
+    // Plugin Constraint: Other lines must have the same number of data points to span the graph
+    var arrIdeal = [],
+    idealTickedAvg = parseFloat(calcIDEALTickedAvg(0.75).toPrecision(2));
+
+    arrIdeal.push( idealTickedAvg ); // position 0
+
+    window.chart.chart.data.datasets[0].data.forEach(function() { arrIdeal.push( idealTickedAvg ); });
+
+    window.chart.chart.data.datasets[3].data = arrIdeal;
 
     // If cumulative is less than ideal
     if(totalCount/calcTickedAvg() < totalCount/calcTickedAvg() * window.thresholdWarning_RateLessThanPerc ) {
@@ -243,7 +280,6 @@ if(haveToUpdateHighestLoggedLine) {
     arrPersonalBest.push(personalBest); // position 0
     
     window.chart.chart.data.datasets[0].data.forEach(function() { arrPersonalBest.push(personalBest); });
-
     window.chart.chart.data.datasets[1].data = arrPersonalBest;
     // console.log("b");
     needToUpdateChart = true;

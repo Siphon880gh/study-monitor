@@ -55,7 +55,9 @@ $(function() {
                         borderWidth: 1
                     },
                     {
-                        label: `Ideal ${idealMentalWorkPerXMins__Numerator} mw per ticked ${idealMentalWorkPerXMins__Den} mins (Should be surpassed)`,
+                        // This is at [2]
+                        // label: `Ideal ${idealMentalWorkPerXMins__Numerator} mw per ticked ${idealMentalWorkPerXMins__Den} mins (Should be surpassed)`,
+                        label: `Benchmark 50%`,
                         fontSize: 4,
                         fill: false,
                         lineTension: 0.1,
@@ -75,6 +77,31 @@ $(function() {
                         pointRadius: 0,
                         pointHitRadius: 10,
                         data: [2, 2],
+                        borderWidth: 1
+                    },
+                    {
+                        // This is at [3]
+                        // label: `Ideal ${idealMentalWorkPerXMins__Numerator} mw per ticked ${idealMentalWorkPerXMins__Den} mins (Should be surpassed)`,
+                        label: `Benchmark 75%`,
+                        fontSize: 4,
+                        fill: false,
+                        lineTension: 0.1,
+                        backgroundColor: orange,
+                        borderColor: orange,
+                        borderCapStyle: 'butt',
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: orange,
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: orange,
+                        pointHoverBorderColor: orange,
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 0,
+                        pointHitRadius: 10,
+                        data: [3, 3],
                         borderWidth: 1
                     }
                 ]
