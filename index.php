@@ -71,12 +71,14 @@
                  <div class="box-part text-center">
                     <div class="handle"></div>
                      <div class="title">
-                         <span>Countup</span><br/>
-                         <span>Click to pause/resume. Right-click/tap hold to restart.</span>
+                         <span>Countup</span>
+                         <span id="countup-restart" class="fa fa-redo" style="cursor:pointer; margin-right:10px; color:lightgray;"></span>
+                         <br/>
+                         <span>You can change time when paused.</span>
                      </div>
                      <div class="text">
                          <input type="text" id="countup" class="active" data-seconds="0" contenteditable="false" value="00:00" style="width:80px; height:30px; margin-right:10px;"></input>
-                         <span id="countup-toggle" class="fa fa-toggle-on" style="cursor:pointer;"></span>
+                         <span id="countup-toggle" class="fa fa-toggle-on" style="cursor:pointer; margin-right:3ch;"></span>
                      </div>
                      <div id="resting-10" style="font-size:20px; color:aquamarine;"></div>
                   </div>
@@ -99,8 +101,9 @@
                             $countup.addClass("active");
                             $countup.attr("contenteditable", "false");
                         }
-                    })
-                    .on("taphold contextmenu", () => {
+                    });
+                $("#countup-restart")
+                    .on("click", () => {
                         var yes = confirm("Are you sure you want to RESTART the countup?");
                         if(yes) {
                             $("#countup").data("seconds", 0);

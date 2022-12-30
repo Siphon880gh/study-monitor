@@ -284,16 +284,11 @@ $(()=>{
             let $countup = $("#countup");
             let parseable = $countup.val().includes(":")?$countup.val():"";
             if(parseable.length) {
-                // Then valid
-                let mins = parseInt(parseable.substr(0, parseable.indexOf(":")));
-                let secs = parseInt(parseable.substr(parseable.indexOf(":")+1))
-                // alert(mins)
-                // alert(secs)
-                let totalSecs = (mins * 60) + secs;
-                // alert(totalSecs)
-                $countup.data("seconds", totalSecs);
-                // console.log(totalSecs)
-                window.secsElapsed = totalSecs;
+                let totalSecs = getTotalSecs(parseable)
+                if(totalSecs!==false) {
+                    $countup.data("seconds", totalSecs);
+                    window.secsElapsed = totalSecs;
+                }
             }
         }
     });
