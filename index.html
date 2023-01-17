@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-   <title>Study Monitor by Weng</title>
+
+<head>
+    <title>Study Monitor by Weng</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
@@ -11,48 +12,59 @@
     <script src="assets/js/vendors/chart.js/dist/Chart.bundle.min.js"></script>
 
     <link rel="stylesheet" href="assets/css/index.css">
-    <script src="assets/js/app.js"></script>    
-    <script src="assets/js/app2.js"></script>    
-    <script src="assets/js/pie.js"></script> 
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/app2.js"></script>
+    <script src="assets/js/pie.js"></script>
     <script src="assets/js/line-graph.js"></script>
 
     <script>
-    // Make draggable into positions
-    $(function() {
-        $("#cards").sortable({handle:".handle"}).disableSelection();
-    })
+        // Make draggable into positions
+        $(function() {
+            $("#cards").sortable({
+                handle: ".handle"
+            }).disableSelection();
+        })
     </script>
 
     <style>
-    .box-part {
-        position: relative;
-    }
-    .box-part .handle {
-        width: 20px;
-        height: 20px;
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        cursor: move;
-        color: white;
-        transition: border 200ms;
-        opacity: 0.3;
-    }
-    .box-part .handle.active {
-        border: 1px solid black;
-        border-radius: 3px;
-        background-color: lightgray;
-    }
+        .box-part {
+            position: relative;
+        }
+        
+        .box-part .handle {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: move;
+            color: white;
+            transition: border 200ms;
+            opacity: 0.3;
+        }
+        
+        .box-part .handle.active {
+            border: 1px solid black;
+            border-radius: 3px;
+            background-color: lightgray;
+        }
     </style>
 
     <script>
-    $(function() {
-        $(".box-part .handle").on("mouseenter", () => { console.log("in"); $(event.target).addClass("active"); })
-                            .on("mouseleave", () => { console.log("out");  $(event.target).removeClass("active"); } );
-    });
+        $(function() {
+            $(".box-part .handle").on("mouseenter", () => {
+                    console.log("in");
+                    $(event.target).addClass("active");
+                })
+                .on("mouseleave", () => {
+                    console.log("out");
+                    $(event.target).removeClass("active");
+                });
+        });
     </script>
-    
+
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="row">
@@ -62,105 +74,107 @@
             </div>
             <div class="col-12 col-sm-12" style="opacity:.8; padding-top:10px; padding-bottom:10px;">
                 <input type="checkbox" id="cooldown-10"><label for="cooldown-10">&nbsp;Cool down 10 seconds each time studied</label>
-                    <i class="fa fa-info" onclick='window.open("//hubermanlab.com/teach-and-learn-better-with-a-neuroplasticity-super-protocol/");' style="vertical-align:super; font-size:8pt; text-decoration:none; cursor:pointer;"></i>
+                <i class="fa fa-info" onclick='window.open("//hubermanlab.com/teach-and-learn-better-with-a-neuroplasticity-super-protocol/");' style="vertical-align:super; font-size:8pt; text-decoration:none; cursor:pointer;"></i>
             </div>
         </div>
 
         <div id="cards" class="row">
-             <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                 <div class="box-part text-center">
+            <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="box-part text-center">
                     <div class="handle"></div>
-                     <div class="title">
-                         <span>Countup</span>
-                         <span id="countup-restart" class="fa fa-redo" style="cursor:pointer; margin-right:10px; color:lightgray;"></span>
-                         <br/>
-                         <span>You can change time when paused.</span>
-                     </div>
-                     <div class="text">
-                         <input type="text" id="countup" class="active" data-seconds="0" contenteditable="false" value="00:00" style="width:80px; height:30px; margin-right:10px;"></input>
-                         <span id="countup-toggle" class="fa fa-toggle-on" style="cursor:pointer; margin-right:3ch;"></span>
-                     </div>
-                     <div id="resting-10" style="font-size:20px; color:aquamarine;"></div>
-                  </div>
-             </div>	 
-
-             <script>
-             $(function() {
-                $("#countup-toggle")
-                    .on("click", () => {
-                        var $btn = $("#countup-toggle");
-                        var $countup = $("#countup");
-                        if($countup.hasClass("active")) {
-                            $btn.removeClass("fa-toggle-on");
-                            $btn.addClass("fa-toggle-off");
-                            $countup.removeClass("active");
-                            $countup.attr("contenteditable", "true");
-                        } else {
-                            $btn.removeClass("fa-toggle-off");
-                            $btn.addClass("fa-toggle-on");
-                            $countup.addClass("active");
-                            $countup.attr("contenteditable", "false");
-                        }
-                    });
-                $("#countup-restart")
-                    .on("click", () => {
-                        var yes = confirm("Are you sure you want to RESTART the countup?");
-                        if(yes) {
-                            $("#countup").data("seconds", 0);
-                        }
-                        event.preventDefault();
-                        event.stopPropagation();
-                    });
-                // init countup
-                setInterval( ()=> {
-                    if($("#countup").hasClass("active")) {
-                        $("#countup").data("seconds", $("#countup").data("seconds")+1);
-                        var seconds = $("#countup").data("seconds");
-                        
-                        $("#countup").val(secs2Timemark(seconds));
-                    }
-                }, 1000);
-
-             });
-
-             function secs2Timemark(seconds) {
-                var mm = "", ss="";
-                if(seconds<60) {
-                    mm="00";
-                    ss=seconds+"";
-                    if(ss.length===1)
-                        ss = "0" + ss;
-                } else if(seconds>=60) {
-                    mm = Math.floor(seconds/60)+"";
-                    if(mm.length===1)
-                        mm = "0" + mm;
-                    
-                    ss = Math.floor(seconds%60)+"";
-                    if(ss.length===1)
-                        ss = "0" + ss;
-                }
-                return `${mm}:${ss}`;
-             } // secs2Timemark
-             </script>
-             
-              <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                 <div class="box-part text-center">
-                    <div class="handle"></div>
-                     <div class="title">
-                         <span>Credit</span><br/>
-                         <span>Enter 1-4 separated with spaces.<!--<a href="#" onclick="infoPoints()" style="text-decoration:none; border-bottom: 0;">Point system</a>--></span>
-                     </div>
-                     
-                     <div class="text">
-                         <textarea id="credit" style="overflow-y: scroll; width:100%; font-size: 2vw" disabled></textarea>
-                     </div>
-                  </div>
-             </div> <!-- Credit -->
+                    <div class="title">
+                        <span>Countup</span>
+                        <span id="countup-restart" class="fa fa-redo" style="cursor:pointer; margin-right:10px; color:lightgray;"></span>
+                        <br/>
+                        <span>You can change time when paused.</span>
+                    </div>
+                    <div class="text">
+                        <input type="text" id="countup" class="active" data-seconds="0" contenteditable="false" value="00:00" style="width:80px; height:30px; margin-right:10px;"></input>
+                        <span id="countup-toggle" class="fa fa-toggle-on" style="cursor:pointer; margin-right:3ch;"></span>
+                    </div>
+                    <div id="resting-10" style="font-size:20px; color:aquamarine;"></div>
+                </div>
+            </div>
 
             <script>
-            function infoPoints() {
-                var info = ``;
-                alert(`
+                $(function() {
+                    $("#countup-toggle")
+                        .on("click", () => {
+                            var $btn = $("#countup-toggle");
+                            var $countup = $("#countup");
+                            if ($countup.hasClass("active")) {
+                                $btn.removeClass("fa-toggle-on");
+                                $btn.addClass("fa-toggle-off");
+                                $countup.removeClass("active");
+                                $countup.attr("contenteditable", "true");
+                            } else {
+                                $btn.removeClass("fa-toggle-off");
+                                $btn.addClass("fa-toggle-on");
+                                $countup.addClass("active");
+                                $countup.attr("contenteditable", "false");
+                            }
+                        });
+                    $("#countup-restart")
+                        .on("click", () => {
+                            var yes = confirm("Are you sure you want to RESTART the countup?");
+                            if (yes) {
+                                $("#countup").data("seconds", 0);
+                            }
+                            event.preventDefault();
+                            event.stopPropagation();
+                        });
+                    // init countup
+                    setInterval(() => {
+                        if ($("#countup").hasClass("active")) {
+                            $("#countup").data("seconds", $("#countup").data("seconds") + 1);
+                            var seconds = $("#countup").data("seconds");
+
+                            $("#countup").val(secs2Timemark(seconds));
+                        }
+                    }, 1000);
+
+                });
+
+                function secs2Timemark(seconds) {
+                    var mm = "",
+                        ss = "";
+                    if (seconds < 60) {
+                        mm = "00";
+                        ss = seconds + "";
+                        if (ss.length === 1)
+                            ss = "0" + ss;
+                    } else if (seconds >= 60) {
+                        mm = Math.floor(seconds / 60) + "";
+                        if (mm.length === 1)
+                            mm = "0" + mm;
+
+                        ss = Math.floor(seconds % 60) + "";
+                        if (ss.length === 1)
+                            ss = "0" + ss;
+                    }
+                    return `${mm}:${ss}`;
+                } // secs2Timemark
+            </script>
+
+            <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="box-part text-center">
+                    <div class="handle"></div>
+                    <div class="title">
+                        <span>Credit</span><br/>
+                        <span>Enter 1-4 separated with spaces.<!--<a href="#" onclick="infoPoints()" style="text-decoration:none; border-bottom: 0;">Point system</a>--></span>
+                    </div>
+
+                    <div class="text">
+                        <textarea id="credit" style="overflow-y: scroll; width:100%; font-size: 2vw" disabled></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- Credit -->
+
+            <script>
+                function infoPoints() {
+                    var info = ``;
+                    alert(`
 Point scheme:
                     1 = Easy and intuitive.
                     2 = Can follow thru internally.
@@ -173,55 +187,56 @@ Alternate point scheme:
                     3 = Both analysis and incorporate
                     4=  Have to research and find unknowns
                 `);
-            }
-            window.firstEverSuccessfulEntry = false;
-            $(function() {
-                $("html")
-                    .on("keydown", (event) => {
-                        if( ! event.key.toString().match(/[1-4]/)) {
-                            // Allow default behavior so can Inspect shortcut keys etc
-                        } else if( $("#countup").hasClass("active") ) {
-                            console.log("**")
-                            event.preventDefault();
-                            event.stopPropagation();
-                            if(!window.firstEverSuccessfulEntry) {
-                                window.firstEverSuccessfulEntry = true;
-                                $("#credit").val(event.key);
-                            } else {
-                                $("#credit").val(event.key+","+$("#credit").val());
-                            } // else
-                            updateUserFreq();
-                            updateAverage();
+                }
+                window.firstEverSuccessfulEntry = false;
+                $(function() {
+                    $("html")
+                        .on("keydown", (event) => {
+                            if (!event.key.toString().match(/[1-4]/)) {
+                                // Allow default behavior so can Inspect shortcut keys etc
+                            } else if ($("#countup").hasClass("active")) {
+                                console.log("**")
+                                event.preventDefault();
+                                event.stopPropagation();
+                                if (!window.firstEverSuccessfulEntry) {
+                                    window.firstEverSuccessfulEntry = true;
+                                    $("#credit").val(event.key);
+                                } else {
+                                    $("#credit").val(event.key + "," + $("#credit").val());
+                                } // else
+                                updateUserFreq();
+                                updateAverage();
 
-                            var wantCooldown = $("#cooldown-10").is(":checked");
-                            if(wantCooldown) {
-                                $("#resting-10").css("display","block");
-                                $("#countup").css("display","none");
-                                window.cooldownCounter = 0;
-                                $("#resting-10").text("")
-                                window.cooldownSI = setInterval(()=>{
-                                    window.cooldownCounter++;
+                                var wantCooldown = $("#cooldown-10").is(":checked");
+                                if (wantCooldown) {
+                                    $("#resting-10").css("display", "block");
+                                    $("#countup").css("display", "none");
+                                    window.cooldownCounter = 0;
+                                    $("#resting-10").text("")
+                                    window.cooldownSI = setInterval(() => {
+                                        window.cooldownCounter++;
 
-                                    if(window.cooldownCounter<11) {
-                                        $("#resting-10").text("Rest the brain for: " + window.cooldownCounter)
-                                    } else {
-                                        $("#resting-10").css("display","none");
-                                        $("#countup").css("display","block");
-                                        clearInterval(window.cooldownSI);
-                                    }
+                                        if (window.cooldownCounter < 11) {
+                                            $("#resting-10").text("Rest the brain for: " + window.cooldownCounter)
+                                        } else {
+                                            $("#resting-10").css("display", "none");
+                                            $("#countup").css("display", "block");
+                                            clearInterval(window.cooldownSI);
+                                        }
 
-                                }, 1000)
+                                    }, 1000)
+                                }
+                                // window.chart.update();
                             }
-                            // window.chart.update();
-                        }
-                    });
-            })
+                        });
+                })
             </script>
 
             <style>
                 .fs-100 {
-                    font-size:100%;
+                    font-size: 100%;
                 }
+                
                 .hide {
                     display: none !important;
                 }
@@ -251,8 +266,9 @@ Alternate point scheme:
                         <span>Research / Trust it</span>
                         <span class='level level4'>0.0</span>
                     </div>
-                </div> <!-- End a switch -->
-                
+                </div>
+                <!-- End a switch -->
+
                 <div class="box-part switch switch2 hide" style="text-align:left; background-color:white; display:inline-block;" onclick="$(`.switch`).addClass(`hide`); $(`.switch3`).removeClass(`hide`);">
                     <span class="fs-100">Textbook vs memorizing facts</span><br/>
                     <div class="level1-row fs-100">
@@ -275,7 +291,8 @@ Alternate point scheme:
                         <span>Have to research and find unknowns</span>
                         <span class='level level4'>0.0</span>
                     </div>
-                </div> <!-- End a switch -->
+                </div>
+                <!-- End a switch -->
 
                 <div class="box-part switch switch3 hide" style="text-align:left; background-color:white; display:inline-block;" onclick="$(`.switch`).addClass(`hide`); $(`.switch1`).removeClass(`hide`);">
                     <span class="fs-100">Textbook vs memorizing facts</span><br/>
@@ -299,36 +316,61 @@ Alternate point scheme:
                         <span>Even visual cues take much sorting/categorizing/prioritizing. Some visual cues may be missed.</span>
                         <span class='level level4'>0.0</span>
                     </div>
-                </div> <!-- End a switch -->
+                </div>
+                <!-- End a switch -->
 
 
 
 
-             </div> <!-- Ends Card Legend -->
+            </div>
+            <!-- Ends Card Legend -->
+
+            <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+                <div class="box-part text-center">
+
+                    <div class="handle"></div>
+                    <div class="title">
+                        <span>User Frequency</span>
+                    </div>
+
+                    <div class="text">
+                        <span id="use-freq"></span>
+                    </div>
 
 
-             <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+                </div>
+            </div>
+            <!-- Ends Card User Frequency -->
+
+
+            <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <canvas id="myChart"></canvas>
+                <div id="studyStateRecommendation" style="position: absolute; right: 5px; bottom: 5px;"></div>
+            </div>
+            <!-- Ends Line Chart -->
+
+
+            <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 <span>Distribution</span>
                 <div id="pie-chart-in-table" class="hide">
                     <canvas id="pie-area"></canvas>
                 </div>
-             </div> <!-- Pie Chart -->
+            </div>
+            <!-- Ends Distribution / Pie Chart -->
 
-             <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <canvas id="myChart"></canvas>
-                <div id="studyStateRecommendation" style="position: absolute; right: 5px; bottom: 5px;"></div>
-             </div> <!-- Line Chart -->
 
-             <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                
+            <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
                 <div class="box-part text-center">
-                    
+
                     <div class="handle"></div>
                     <div class="title">
                         <span>Would Avg</span><br/>
                         <span>If you had taken credit now, 1 min later, or 5 mins later:</span>
                     </div>
-                    
+
                     <table class="text would-avgs" style="width:100%;">
                         <thead>
                             <tr>
@@ -338,20 +380,22 @@ Alternate point scheme:
                                 <th style="border: 1px solid gray; cursor:pointer;" onclick="toggle5Mins()">5m</th>
 
                                 <script>
-                                /**
-                                 * Toggle 5 min header at Would Ave
-                                 */
-                                function toggle5Mins() {
-                                    var $el = $(event.target);
-                                    if($el.text()==="5mins") {
-                                        var secs = $("#countup").data("seconds");
-                                        secs+=300;
-                                        $el.text(secs2Timemark(secs));
-                                        setTimeout(()=>{ $el.text("5mins"); }, 3000);
-                                    } else {
-                                        $el.text("5mins");
+                                    /**
+                                     * Toggle 5 min header at Would Ave
+                                     */
+                                    function toggle5Mins() {
+                                        var $el = $(event.target);
+                                        if ($el.text() === "5mins") {
+                                            var secs = $("#countup").data("seconds");
+                                            secs += 300;
+                                            $el.text(secs2Timemark(secs));
+                                            setTimeout(() => {
+                                                $el.text("5mins");
+                                            }, 3000);
+                                        } else {
+                                            $el.text("5mins");
+                                        }
                                     }
-                                }
                                 </script>
                             </tr>
                         </thead>
@@ -382,161 +426,150 @@ Alternate point scheme:
                             </tr>
                         </tbody>
                     </table>
-                    
+
                 </div>
 
                 <script>
-                $(function() {
-                    setInterval(()=> {
-                        function wouldCredit(credit, plusMins) {
-                            var points =  $("#credit").val().split(" ").filter(el=>typeof parseInt(el)==="number" && el.length>0).map(el=>parseInt(el));
-                            var mins = Math.floor($("#countup").data("seconds")/60);
-                            if(mins===0) mins=1;
+                    $(function() {
+                        setInterval(() => {
+                            function wouldCredit(credit, plusMins) {
+                                var points = $("#credit").val().split(" ").filter(el => typeof parseInt(el) === "number" && el.length > 0).map(el => parseInt(el));
+                                var mins = Math.floor($("#countup").data("seconds") / 60);
+                                if (mins === 0) mins = 1;
 
-                            var total=0;
-                            if(points.length) total = points.reduce( (total, part)=>total+=part );
-                                
-                            return ( (total+credit)/(mins+plusMins) ).toFixed(2); // returns avg
-                        }
+                                var total = 0;
+                                if (points.length) total = points.reduce((total, part) => total += part);
+
+                                return ((total + credit) / (mins + plusMins)).toFixed(2); // returns avg
+                            }
 
 
-                        var prev=0, arr = $("#avg").text().split(" ").filter(el=>typeof parseFloat(el)==="number" && el.length>0).map(el=>parseFloat(el));
-                        if(arr.length>0) 
-                            prev=arr[arr.length-1];
+                            var prev = 0,
+                                arr = $("#avg").text().split(" ").filter(el => typeof parseFloat(el) === "number" && el.length > 0).map(el => parseFloat(el));
+                            if (arr.length > 0)
+                                prev = arr[arr.length - 1];
 
-                        // TODO: Refactor
-                        var a=0, b=0, c=0;
+                            // TODO: Refactor
+                            var a = 0,
+                                b = 0,
+                                c = 0;
 
-                        $("#would-avg-1")
-                            .text( wouldCredit(1, 0) )
-                            .removeClass("text-lightred")
-                            .addClass( wouldCredit(1, 0)<prev?"text-lightred":"" );
-                        $("#would-avg-1-later")
-                            .text( wouldCredit(1, 1) )
-                            .removeClass("text-lightred")
-                            .addClass( wouldCredit(1, 1)<prev?"text-lightred":"" );
-                        $("#would-avg-1-muchlater")
-                            .text( wouldCredit(1, 5) )
-                            .removeClass("text-lightred")
-                            .addClass( wouldCredit(1, 5)<prev?"text-lightred":"" );
+                            $("#would-avg-1")
+                                .text(wouldCredit(1, 0))
+                                .removeClass("text-lightred")
+                                .addClass(wouldCredit(1, 0) < prev ? "text-lightred" : "");
+                            $("#would-avg-1-later")
+                                .text(wouldCredit(1, 1))
+                                .removeClass("text-lightred")
+                                .addClass(wouldCredit(1, 1) < prev ? "text-lightred" : "");
+                            $("#would-avg-1-muchlater")
+                                .text(wouldCredit(1, 5))
+                                .removeClass("text-lightred")
+                                .addClass(wouldCredit(1, 5) < prev ? "text-lightred" : "");
 
-                        $("#would-avg-2")
-                            .text( wouldCredit(2, 0) )
-                            .removeClass("text-lightred")
-                            .addClass( wouldCredit(2, 0)<prev?"text-lightred":"" );
-                        $("#would-avg-2-later")
-                            .text( wouldCredit(2, 1) )
-                            .removeClass("text-lightred")
-                            .addClass( wouldCredit(2, 1)<prev?"text-lightred":"" );
-                        $("#would-avg-2-muchlater")
-                            .text( wouldCredit(2, 5) )
-                            .removeClass("text-lightred")
-                            .addClass( wouldCredit(2, 5)<prev?"text-lightred":"" );
+                            $("#would-avg-2")
+                                .text(wouldCredit(2, 0))
+                                .removeClass("text-lightred")
+                                .addClass(wouldCredit(2, 0) < prev ? "text-lightred" : "");
+                            $("#would-avg-2-later")
+                                .text(wouldCredit(2, 1))
+                                .removeClass("text-lightred")
+                                .addClass(wouldCredit(2, 1) < prev ? "text-lightred" : "");
+                            $("#would-avg-2-muchlater")
+                                .text(wouldCredit(2, 5))
+                                .removeClass("text-lightred")
+                                .addClass(wouldCredit(2, 5) < prev ? "text-lightred" : "");
 
-                        $("#would-avg-3")
-                            .text( wouldCredit(3, 0) )
-                            .removeClass("text-lightred")
-                            .addClass( wouldCredit(3, 0)<prev?"text-lightred":"" );
-                        $("#would-avg-3-later")
-                            .text( wouldCredit(3, 1) )
-                            .removeClass("text-lightred")
-                            .addClass( wouldCredit(3, 1)<prev?"text-lightred":"" );
-                        $("#would-avg-3-muchlater")
-                            .text( wouldCredit(3, 5) )
-                            .removeClass("text-lightred")
-                            .addClass( wouldCredit(3, 5)<prev?"text-lightred":"" );
+                            $("#would-avg-3")
+                                .text(wouldCredit(3, 0))
+                                .removeClass("text-lightred")
+                                .addClass(wouldCredit(3, 0) < prev ? "text-lightred" : "");
+                            $("#would-avg-3-later")
+                                .text(wouldCredit(3, 1))
+                                .removeClass("text-lightred")
+                                .addClass(wouldCredit(3, 1) < prev ? "text-lightred" : "");
+                            $("#would-avg-3-muchlater")
+                                .text(wouldCredit(3, 5))
+                                .removeClass("text-lightred")
+                                .addClass(wouldCredit(3, 5) < prev ? "text-lightred" : "");
 
-                        $("#would-avg-4")
-                            .text( wouldCredit(4, 0) )
-                            .removeClass("text-lightred")
-                            .addClass( wouldCredit(4, 0)<prev?"text-lightred":"" );
-                        $("#would-avg-4-later")
-                            .text( wouldCredit(4, 1) )
-                            .removeClass("text-lightred")
-                            .addClass( wouldCredit(4, 1)<prev?"text-lightred":"" );
-                        $("#would-avg-4-muchlater")
-                            .text( wouldCredit(4, 5) )
-                            .removeClass("text-lightred")
-                            .addClass( wouldCredit(4, 5)<prev?"text-lightred":"" );
+                            $("#would-avg-4")
+                                .text(wouldCredit(4, 0))
+                                .removeClass("text-lightred")
+                                .addClass(wouldCredit(4, 0) < prev ? "text-lightred" : "");
+                            $("#would-avg-4-later")
+                                .text(wouldCredit(4, 1))
+                                .removeClass("text-lightred")
+                                .addClass(wouldCredit(4, 1) < prev ? "text-lightred" : "");
+                            $("#would-avg-4-muchlater")
+                                .text(wouldCredit(4, 5))
+                                .removeClass("text-lightred")
+                                .addClass(wouldCredit(4, 5) < prev ? "text-lightred" : "");
 
-                    }, 1000);
-                });
+                        }, 1000);
+                    });
                 </script>
 
                 <style>
-                .would-avgs {
-                    text-align: left !important;
-                }
-                .would-avgs, .would-avgs * { 
-                    /* font-size:12px; */
-                    padding: 5px;
-                }
+                    .would-avgs {
+                        text-align: left !important;
+                    }
+                    
+                    .would-avgs,
+                    .would-avgs * {
+                        /* font-size:12px; */
+                        padding: 5px;
+                    }
                 </style>
-            </div>	 <!-- End would average -->
-             
-              <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
-            
-                 <div class="box-part text-center">
-                     
+            </div>
+            <!-- End would average -->
+
+            <script>
+                function updateUserFreq() {
+                    var freqs = $("#use-freq").text().split(","), // as array
+                        currentTimemark = $("#countup").text(); // as string
+                    var matched = freqs.find(function(foundTimemark) { // as boolean
+                        return currentTimemark == foundTimemark;
+                    });
+
+                    if (!matched) {
+                        $("#use-freq").append($("#countup").val() + ", ");
+                        $("#use-freq").data("last-secs", getTotalSecs($("#countup").val()));
+                    }
+                }
+            </script>
+
+            <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+                <div class="box-part text-center">
+
                     <div class="handle"></div>
-                     <div class="title">
-                         <span>User Frequency</span>
-                     </div>
-                     
-                     <div class="text">
-                         <span id="use-freq"></span>
-                     </div>
-                     
-                     
-                     
-                  </div>
-             </div>	  <!-- Ends Card User Frequency -->
+                    <div class="title">
+                        <span>Average</span><br/>
+                        <span>Try to maintain or beat your usual average points/min.</span>
+                    </div>
 
-             <script>
-             function updateUserFreq() {
-                var freqs = $("#use-freq").text().split(","), // as array
-                            currentTimemark = $("#countup").text(); // as string
-                        var matched = freqs.find(function(foundTimemark) { // as boolean
-                            return currentTimemark==foundTimemark; 
-                        });
+                    <div class="text">
+                        <span id="avg"></span>
+                    </div>
+                </div>
 
-                        if(!matched) {
-                            $("#use-freq").append($("#countup").val() + ", ");
-                            $("#use-freq").data("last-secs", getTotalSecs($("#countup").val()));
-                        }
-             }
-             </script>
-             
-             <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
-            
-                 <div class="box-part text-center">
-                     
-                    <div class="handle"></div>
-                     <div class="title">
-                         <span>Average</span><br/>
-                         <span>Try to maintain or beat your usual average points/min.</span>
-                     </div>
-                     
-                     <div class="text">
-                         <span id="avg"></span>
-                     </div>
-                  </div>
-
-                    <script>
+                <script>
                     function updateAverage() {
-                        var mins = Math.floor($("#countup").data("seconds")/60);
-                        if(mins===0)
-                            mins=1;
+                        var mins = Math.floor($("#countup").data("seconds") / 60);
+                        if (mins === 0)
+                            mins = 1;
                         var points = 0;
 
-                        var total = $("#credit").val().split(" ").filter(el=>typeof parseInt(el)==="number" && el.length>0).map(el=>parseInt(el)).reduce( (total, part)=>total+=part );
-                        var avg = (total/mins).toFixed(2);
+                        var total = $("#credit").val().split(" ").filter(el => typeof parseInt(el) === "number" && el.length > 0).map(el => parseInt(el)).reduce((total, part) => total += part);
+                        var avg = (total / mins).toFixed(2);
 
-                        var prev=0, arr = $("#avg").text().split(" ").filter(el=>typeof parseFloat(el)==="number" && el.length>0).map(el=>parseFloat(el));
-                        if(arr.length>0)
-                            prev=arr[arr.length-1];
-                        
-                        if(avg<prev) {
+                        var prev = 0,
+                            arr = $("#avg").text().split(" ").filter(el => typeof parseFloat(el) === "number" && el.length > 0).map(el => parseFloat(el));
+                        if (arr.length > 0)
+                            prev = arr[arr.length - 1];
+
+                        if (avg < prev) {
                             $("#avg .text-red, #avg .text-lightred").removeClass("text-red").removeClass("text-lightred").addClass("text-purple");
                             $("#avg").append(`<span class="text-red">${avg}</span> `);
                         } else {
@@ -544,59 +577,68 @@ Alternate point scheme:
                             $("#avg").append(`<span>${avg}</span> `);
                         }
                     }
-                    </script>
+                </script>
 
-                    <style>
-                    .text-red { color:red; }
-                    .text-lightred { color:red; opacity:0.3; }
-                    .text-purple { color:purple; }
-                    </style>
-             </div>
-             
-             
-              <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
-            
-                 <div class="box-part box-part-review-time text-center">
-                     
+                <style>
+                    .text-red {
+                        color: red;
+                    }
+                    
+                    .text-lightred {
+                        color: red;
+                        opacity: 0.3;
+                    }
+                    
+                    .text-purple {
+                        color: purple;
+                    }
+                </style>
+            </div>
+
+
+            <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+                <div class="box-part box-part-review-time text-center">
+
                     <div class="handle"></div>
-                     <div class="title">
-                         <span>Need Review</span><br/>
-                         <span>Turns red when it's time you should review the User Frequency and Average to see if you are approaching your studying well or you need to take a small break. Click this card to reset the red color.</span>
-                     </div>
-                     
-                     <div class="text">
-                         <label for="review-time">Every</label>
-                         <input id="review-time" type="number" min="0" style="width: 4.5ch; height: 2rem;" />
-                         <label for="review-time">minutes</label>
-                     </div>
-                     
-                  </div>
-                  </div>
-            
-                  <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                  <div class="box-part box-part-tolerate-time text-center">
-                     
-                     <div class="handle"></div>
-                      <div class="title">
-                          <span>Tolerate Time</span><br/>
-                          <span>Give me an ugly alert box if I don't log work.</span>
-                      </div>
-                      
-                      <div class="text">
-                          <label for="tolerate-time">Idled for</label>
-                          <input id="tolerate-time" type="number" min="0" value="15" style="width: 4.5ch; height: 2rem;" />
-                          <label for="tolerate-time">minutes</label>
-                      </div>
-                      
-                   </div>
+                    <div class="title">
+                        <span>Alert Need Review</span><br/>
+                        <span>Turns red when it's time you should review the User Frequency and Average to see if you are approaching your studying well or you need to take a small break. Click this card to reset the red color.</span>
+                    </div>
 
-                  <script>
+                    <div class="text">
+                        <label for="review-time">Every</label>
+                        <input id="review-time" type="number" min="0" style="width: 4.5ch; height: 2rem;" />
+                        <label for="review-time">minutes</label>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="box-part-wrapper col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="box-part box-part-tolerate-time text-center">
+
+                    <div class="handle"></div>
+                    <div class="title">
+                        <span>Tolerate Time</span><br/>
+                        <span>Give me an ugly alert box if I don't log work.</span>
+                    </div>
+
+                    <div class="text">
+                        <label for="tolerate-time">Idled for</label>
+                        <input id="tolerate-time" type="number" min="0" value="15" style="width: 4.5ch; height: 2rem;" />
+                        <label for="tolerate-time">minutes</label>
+                    </div>
+
+                </div>
+
+                <script>
                     function getTotalSecs(timemark) {
-                        let parseable = timemark.includes(":")?timemark:"";
-                        if(parseable.length) {
+                        let parseable = timemark.includes(":") ? timemark : "";
+                        if (parseable.length) {
                             let mins = parseInt(parseable.substr(0, parseable.indexOf(":")));
-                            let secs = parseInt(parseable.substr(parseable.indexOf(":")+1))
-                            if(isNaN(mins) || isNaN(secs))
+                            let secs = parseInt(parseable.substr(parseable.indexOf(":") + 1))
+                            if (isNaN(mins) || isNaN(secs))
                                 return false;
 
                             let totalSecs = (mins * 60) + secs;
@@ -609,19 +651,19 @@ Alternate point scheme:
                     $(function() {
                         $(".box-part-review-time ").on("click", (event) => {
                             // if($(event.target).hasClass("need-review"))
-                                $(".box-part-review-time").removeClass("need-review");
+                            $(".box-part-review-time").removeClass("need-review");
                         });
-                        setInterval(()=> {
+                        setInterval(() => {
                             // Need review?
-                            if(!$("#countup").hasClass("active"))
+                            if (!$("#countup").hasClass("active"))
                                 return;
 
                             // Flash red for user to review
                             var mins = Math.abs($("#review-time").val());
                             // Is it time yet? The first time
-                            if($("#countup").data('seconds')<mins*60)
+                            if ($("#countup").data('seconds') < mins * 60)
                                 return;
-                            if($("#countup").data('seconds')%(mins*60)==0)
+                            if ($("#countup").data('seconds') % (mins * 60) == 0)
                                 $("#review-time").closest(".box-part").addClass("need-review");
 
 
@@ -634,7 +676,7 @@ Alternate point scheme:
                             elapsedSecs = parseInt(elapsedSecs);
 
                             // console.log({lastLoggedSecs, elapsedSecs});
-                            if(!isNaN(parseInt($("#tolerate-time").val())) && (lastLoggedSecs + (parseInt($("#tolerate-time").val())*60) === elapsedSecs)) {
+                            if (!isNaN(parseInt($("#tolerate-time").val())) && (lastLoggedSecs + (parseInt($("#tolerate-time").val()) * 60) === elapsedSecs)) {
                                 alert(`Idled minutes: ${$("#tolerate-time").val()}\n\nGet back to it!`)
                             }
 
@@ -644,32 +686,32 @@ Alternate point scheme:
                             $('[data-toggle="tooltip"]').tooltip();
                         });
                     });
-                  </script>
-             </div>	 
-     
-     </div> <!-- .row -->
-    </div> <!-- /.container -->
+                </script>
+            </div>
+
+        </div>
+        <!-- .row -->
+    </div>
+    <!-- /.container -->
 
     <script>
-    console.log(`Test the user interaction by changing the timer seconds with:\n$("#countup").data("seconds", 1000);`);
+        console.log(`Test the user interaction by changing the timer seconds with:\n$("#countup").data("seconds", 1000);`);
     </script>
 
     <!-- Bootstrap JS -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6SpejspanU02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    
+
     <!-- Font-Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
     <!-- jQuery mobile for taphold -->
     <script src="assets/js/vendors/jquery.mobile.custom/jquery.mobile.custom.min.js"></script>
-    
+
     <!-- jQuery UI -->
-    <script
-        src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-        
+
 
 </body>
+
 </html>
