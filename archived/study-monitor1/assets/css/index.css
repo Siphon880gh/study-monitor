@@ -1,0 +1,118 @@
+
+.hide {
+    display: none;
+}
+
+html {
+    -webkit-text-size-adjust: none
+}
+/* Reusable classes */
+.small {
+    font-size: small;
+}
+.right {
+    float: right;
+}
+.clickable {
+    cursor: pointer;
+}
+.clickable:hover {
+    color: blue;
+}
+.clickable-text {
+    transition: color 100ms;
+    -webkit-transition: color 100ms;
+}
+.clickable-text:hover {
+    color: darkblue;
+}
+#myTable {
+    width: 50%;
+    border: 1px solid black;
+    border-bottom: 2px solid black;
+    margin: 0 auto;
+}
+#myTable th, td {
+    border-bottom: 1px solid #ddd;
+    padding: 5px;
+    border-collapse: collapse;
+}
+#myTable th {
+    text-align: right;
+}
+#myTable td {
+    text-align: left;
+}
+
+tr.adept th {
+    color: green;
+}
+tr.detective th {
+    color: lightgreen;
+}
+tr.slowDetective th {
+    color: orange;
+}
+tr.failed th {
+    color: red;
+}
+.bold {
+    font-weight: 600;
+}
+
+.fa-question {
+    color: gray;
+    font-size: .75rem;
+}
+#instructions {
+    margin: 0 auto;
+    font-size: .75rem;
+    font-weight: 100;
+    /* border: 1px solid gray; */
+    padding: 5px;
+    padding-top: 10px;
+    border-radius:5px;
+    padding-top:10px;
+}
+.half {
+    display: inline-block;
+    width: 50%;
+    box-sizing: border-box;
+    float: left;
+}
+@media (max-width: 799px) {
+    .half {
+        display: block;
+        width: 100%;
+        margin: 0 auto;
+        float: none;
+    }
+    .half:nth-child(2) {
+        border-top: 1px solid gray;
+        padding-top:10px
+    }
+    #myChart, .chartjs-size-monitor {
+        /* height: 100% !important; */
+    }
+}
+
+button {
+    font-weight: 400;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+    color: #fff;
+    border: 1px solid transparent;
+	padding: .375rem .75rem;
+	font-size: 1rem;
+	line-height: 1.5;
+	border-radius: .25rem;
+	transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+#myTable tr .key {
+    text-align:left;
+    min-width: 4.5ch;
+}
+#myTable tr .type {
+    min-width: 160px;
+}

@@ -1,0 +1,55 @@
+body{
+    background: #eee;
+}
+span{
+    font-size:15px;
+}
+a{
+  text-decoration:none; 
+  color: #0062cc;
+  border-bottom:2px solid #0062cc;
+}
+.box{
+    padding:60px 0px;
+}
+
+.box-part{
+    background:#FFF;
+    border-radius:0;
+    padding:10px 10px;
+    margin:30px 0px;
+}
+.text{
+    margin:20px 0px;
+}
+
+.fa{
+     color:#4183D7;
+}
+.title {
+    text-align: left;
+    h4 {
+        font-size: 12px;
+    }
+    h6 {
+        margin-top: -6px;
+        font-size: 10px;
+        font-weight: 400;
+    }
+}
+#countup {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    &:not(.active) {
+        color: lightgray;
+        font-weight: 100;
+    }
+}
+textarea {
+    resize: none;
+}
+.box-part.need-review {
+    background-color: tomato;
+    cursor: pointer;
+}
